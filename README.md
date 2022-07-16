@@ -1,2 +1,2 @@
 # VirtualShops
-Creating virtual store with Express, NodeJs
+Creating virtual store with Express, NodeJs.
