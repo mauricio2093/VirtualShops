@@ -1,26 +1,19 @@
 const express = require('express');
+const faker = require('faker');
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  const { categoryId } = req.params;
-  res.json([
-    {
-      categoryId,
-      category: 'Food',
-      products: [],
-    },
-    {
-      categoryId,
-      category: 'Games',
-      products: [],
-    },
-    {
-      categoryId,
-      category: 'clothes',
-      products: [],
-    },
-  ]);
+  const categories = [];
+  const { size } = req.query;
+  const limit = size || 10;
+  for (let index = 0; index < limit; index += 1) {
+    categories.push({
+      products: faker.commerce.product(),
+      description: faker.commerce.productDescription(),
+    });
+  }
+  res.json(categories);
 });
 
 router.get('/:categoryId', (req, res) => {
@@ -28,8 +21,8 @@ router.get('/:categoryId', (req, res) => {
   res.json([
     {
       categoryId,
-      category: 'Food',
-      products: [],
+      product: 'Computer',
+      description: 'Is big',
     },
   ]);
 });
@@ -39,6 +32,34 @@ router.get('/:categoryId/products/:productId', (req, res) => {
   res.json({
     categoryId,
     productId,
+  });
+});
+
+router.post('/', (req, res) => {
+  // eslint-disable-next-line prefer-destructuring
+  const body = req.body;
+  res.json({
+    message: 'creted',
+    data: body,
+  });
+});
+
+router.patch('/:id', (req, res) => {
+  const { id } = req.params;
+  // eslint-disable-next-line prefer-destructuring
+  const body = req.body;
+  res.json({
+    message: 'Update',
+    data: body,
+    id,
+  });
+});
+
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  res.json({
+    message: 'delete',
+    id,
   });
 });
 
