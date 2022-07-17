@@ -16,7 +16,7 @@ router.get('/', (req, res) => { // en este endpoint se espera una lista de produ
     });
   }
 
-  res.json(products);
+  res.status(200).json(products);
 });
 
 router.get('/filter', (resq, res) => { // los endpoint especificos deben ir antes de los dinamicos
@@ -25,7 +25,14 @@ router.get('/filter', (resq, res) => { // los endpoint especificos deben ir ante
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
-  res.json({
+
+  if (Number(id) > 999) {
+    res.status(404).json({
+      messege: 'Not Found',
+    });
+  }
+
+  res.status(200).json({
     id,
     name: 'Product 2',
     price: 1000,
@@ -35,7 +42,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
   // eslint-disable-next-line prefer-destructuring
   const body = req.body;
-  res.json({
+  res.status(201).json({
     message: 'created',
     data: body,
   });
@@ -45,7 +52,7 @@ router.patch('/:id', (req, res) => {
   const { id } = req.params;
   // eslint-disable-next-line prefer-destructuring
   const body = req.body;
-  res.json({
+  res.status(206).json({
     message: 'update',
     data: body,
     id,
@@ -54,7 +61,7 @@ router.patch('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  res.json({
+  res.status(200).json({
     message: 'delete',
     id,
   });

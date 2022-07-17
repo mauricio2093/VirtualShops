@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
       img: faker.image.people(),
     });
   }
-  res.json(users);
+  res.status(200).json(users);
   /* const { limit, offset } = req.query;
   if (limit && offset) {
     res.json({
@@ -28,7 +28,12 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
-  res.json({
+  if (Number(id) > 999) {
+    res.status(404).json({
+      messege: 'Not Found',
+    });
+  }
+  res.status(200).json({
     id,
     name: 'Arturo',
     type: 'employee',
@@ -38,7 +43,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
   // eslint-disable-next-line prefer-destructuring
   const body = req.body;
-  res.json({
+  res.status(201).json({
     message: 'created',
     data: body,
   });
@@ -48,7 +53,7 @@ router.patch('/:id', (req, res) => {
   const { id } = req.params;
   // eslint-disable-next-line prefer-destructuring
   const body = req.body;
-  res.json({
+  res.status(206).json({
     message: 'update',
     data: body,
     id,
@@ -57,7 +62,7 @@ router.patch('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  res.json({
+  res.status(200).json({
     message: 'delete',
     id,
   });

@@ -18,6 +18,11 @@ router.get('/', (req, res) => {
 
 router.get('/:categoryId', (req, res) => {
   const { categoryId } = req.params;
+  if (Number(categoryId) > 999) {
+    res.status(404).json({
+      messege: 'Not Found',
+    });
+  }
   res.json([
     {
       categoryId,
@@ -38,7 +43,8 @@ router.get('/:categoryId/products/:productId', (req, res) => {
 router.post('/', (req, res) => {
   // eslint-disable-next-line prefer-destructuring
   const body = req.body;
-  res.json({
+
+  res.status(201).json({
     message: 'creted',
     data: body,
   });
@@ -48,7 +54,7 @@ router.patch('/:id', (req, res) => {
   const { id } = req.params;
   // eslint-disable-next-line prefer-destructuring
   const body = req.body;
-  res.json({
+  res.status(206).json({
     message: 'Update',
     data: body,
     id,
@@ -57,7 +63,7 @@ router.patch('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  res.json({
+  res.status(200).json({
     message: 'delete',
     id,
   });
