@@ -5,10 +5,10 @@ const usersRouter = require('./users');
 
 const routerApi = (app) => {
   const router = express.Router();
-  app.use('/api/v1/categories', router);
-  router.use('categories', categoriesRouter);
-  router.use('products', productsRouter);
-  router.use('users', usersRouter);
+  app.use('/api/v1', router);
+  router.use('/categories', categoriesRouter);
+  router.use('/products', productsRouter);
+  router.use('/users', usersRouter);
 };
 
 module.exports = routerApi;
