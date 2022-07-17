@@ -1,4 +1,7 @@
-const { app, routerApi } = require('./routes/app');
+const express = require('express');
+const routerApi = require('./routes');
+
+const app = express();
 
 const port = 3005;
 

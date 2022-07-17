@@ -1,5 +1,5 @@
 const express = require('express');
-const { contextualData } = require('./app');
+const faker = require('faker');
 
 const router = express.Router();
 
@@ -10,9 +10,9 @@ router.get('/', (req, res) => { // en este endpoint se espera una lista de produ
 
   for (let index = 0; index < limit; index += 1) {
     products.push({
-      name: contextualData.commerce.productName('girl'),
-      price: parseInt(contextualData.commerce.price(), 10),
-      image: contextualData.image.imageUrl(),
+      name: faker.commerce.productName('girl'),
+      price: parseInt(faker.commerce.price(), 10),
+      image: faker.image.imageUrl(),
     });
   }
 
