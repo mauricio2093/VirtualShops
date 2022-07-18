@@ -1,20 +1,11 @@
 const express = require('express');
-const faker = require('faker');
+const ProductsService = require('../services/products.service');
 
+const service = new ProductsService();
 const router = express.Router();
 
 router.get('/', (req, res) => { // en este endpoint se espera una lista de productos
-  const products = [];
-  const { size } = req.query;
-  const limit = size || 10;
-
-  for (let index = 0; index < limit; index += 1) {
-    products.push({
-      name: faker.commerce.productName('girl'),
-      price: parseInt(faker.commerce.price(), 10),
-      image: faker.image.imageUrl(),
-    });
-  }
+  const products = service.find();
 
   res.status(200).json(products);
 });
@@ -25,26 +16,18 @@ router.get('/filter', (resq, res) => { // los endpoint especificos deben ir ante
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
+  const product = service.findOne(id);
 
-  if (Number(id) > 999) {
-    res.status(404).json({
-      messege: 'Not Found',
-    });
-  }
-
-  res.status(200).json({
-    id,
-    name: 'Product 2',
-    price: 1000,
-  });
+  res.status(200).json(product);
 });
 
 router.post('/', (req, res) => {
   // eslint-disable-next-line prefer-destructuring
   const body = req.body;
+  const newProduct = service.create(body);
   res.status(201).json({
-    message: 'created',
-    data: body,
+    message: 'creted',
+    data: newProduct,
   });
 });
 
@@ -52,19 +35,15 @@ router.patch('/:id', (req, res) => {
   const { id } = req.params;
   // eslint-disable-next-line prefer-destructuring
   const body = req.body;
-  res.status(206).json({
-    message: 'update',
-    data: body,
-    id,
-  });
+  const product = service.update(id, body);
+
+  res.status(206).json(product);
 });
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  res.status(200).json({
-    message: 'delete',
-    id,
-  });
+  const product = service.delete(id);
+  res.status(200).json(product);
 });
 
 module.exports = router;
