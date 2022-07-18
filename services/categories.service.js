@@ -4,7 +4,6 @@ class CategoriesServices {
   constructor() {
     this.categories = [];
     this.generate();
-    this.findIndexCategory();
   }
 
   generate() {
@@ -19,7 +18,7 @@ class CategoriesServices {
     }
   }
 
-  create(data) {
+  async create(data) {
     const newCategory = {
       id: faker.datatype.uuid(),
       ...data,
@@ -29,24 +28,20 @@ class CategoriesServices {
     return newCategory;
   }
 
-  find() {
+  async find() {
     return this.categories;
   }
 
-  findOne(id) {
+  async findOne(id) {
     return this.categories.find((item) => item.id === id);
   }
 
-  findIndexCategory(id) {
+  async update(id, changes) {
     const index = this.categories.findIndex((item) => item.id === id);
-    return index;
-  }
 
-  update(id, changes) {
-    const index = this.findIndexCategory(id);
+    if (index === -1) throw new Error('Category not found');
 
     const category = this.categories[index];
-    if (index === -1) throw new Error('Category not found');
 
     this.categories[index] = {
       ...category,
@@ -56,8 +51,8 @@ class CategoriesServices {
     return this.categories[index];
   }
 
-  delete(id) {
-    const index = this.findIndexCategory(id);
+  async delete(id) {
+    const index = this.categories.findIndex((item) => item.id === id);
 
     if (index === -1) throw new Error('Category not found');
 
