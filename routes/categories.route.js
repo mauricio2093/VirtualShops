@@ -9,10 +9,14 @@ router.get('/', async (req, res) => {
   res.json(categories);
 });
 
-router.get('/:categoryId', async (req, res) => {
-  const { categoryId } = req.params;
-  const category = await service.findOne(categoryId);
-  res.json(category);
+router.get('/:categoryId', async (req, res, next) => {
+  try {
+    const { categoryId } = req.params;
+    const category = await service.findOne(categoryId);
+    res.json(category);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.post('/', async (req, res) => {
@@ -25,7 +29,7 @@ router.post('/', async (req, res) => {
   });
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     // eslint-disable-next-line prefer-destructuring
@@ -34,21 +38,17 @@ router.patch('/:id', async (req, res) => {
 
     res.status(206).json(category);
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
-    });
+    next(error);
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const category = await service.delete(id);
     res.status(200).json(category);
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
-    });
+    next(error);
   }
 });
 

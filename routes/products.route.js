@@ -1,4 +1,6 @@
 const express = require('express');
+const validatorHandler = require('../middlewares/validator.handler');
+const { getProductSchema, createProductSchema, updateProductSchema } = require('../schemas/product.schema');
 const ProductsService = require('../services/products.service');
 
 const service = new ProductsService();
@@ -14,47 +16,60 @@ router.get('/filter', (resq, res) => { // los endpoint especificos deben ir ante
   res.send('Filter');
 });
 
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
-  const product = await service.findOne(id);
+router.get(
+  '/:id',
+  validatorHandler(getProductSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const product = await service.findOne(id);
 
-  res.status(200).json(product);
-});
+      res.status(200).json(product);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
-router.post('/', async (req, res) => {
+router.post(
+  '/',
+  validatorHandler(createProductSchema, 'body'),
+  async (req, res) => {
   // eslint-disable-next-line prefer-destructuring
-  const body = req.body;
-  const newProduct = await service.create(body);
-  res.status(201).json({
-    message: 'creted',
-    data: newProduct,
-  });
-});
-
-router.patch('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    // eslint-disable-next-line prefer-destructuring
     const body = req.body;
-    const product = await service.update(id, body);
-
-    res.status(206).json(product);
-  } catch (error) {
-    res.status(404).json({
-      message: error.message,
+    const newProduct = await service.create(body);
+    res.status(201).json({
+      message: 'creted',
+      data: newProduct,
     });
-  }
-});
+  },
+);
 
-router.delete('/:id', async (req, res) => {
+router.patch(
+  '/:id',
+  validatorHandler(getProductSchema, 'params'),
+  validatorHandler(updateProductSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      // eslint-disable-next-line prefer-destructuring
+      const body = req.body;
+      const product = await service.update(id, body);
+
+      res.status(206).json(product);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+router.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const product = await service.delete(id);
     res.status(200).json(product);
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
-    });
+    next(error);
   }
 });
 

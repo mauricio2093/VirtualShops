@@ -9,10 +9,14 @@ router.get('/', async (req, res) => {
   res.status(200).json(users);
 });
 
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
-  const user = await service.findOne(id);
-  res.status(200).json(user);
+router.get('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await service.findOne(id);
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.post('/', async (req, res) => {
@@ -25,7 +29,7 @@ router.post('/', async (req, res) => {
   });
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     // eslint-disable-next-line prefer-destructuring
@@ -34,21 +38,17 @@ router.patch('/:id', async (req, res) => {
 
     res.status(206).json(user);
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
-    });
+    next(error);
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await service.delete(id);
     res.status(200).json(user);
   } catch (error) {
-    res.status(404).json({
-      message: error.message,
-    });
+    next(error);
   }
 });
 
