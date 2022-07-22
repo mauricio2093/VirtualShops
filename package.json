@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": "18.x"
+  },
   "name": "virtualshop",
   "version": "1.0.0",
   "description": "APIREST-NodeJS-Express",
@@ -18,11 +21,12 @@
     "eslint-config-prettier": "~8.5.0",
     "eslint-plugin-import": "~2.26.0",
     "eslint-plugin-prettier": "~4.2.1",
-    "nodemon": "^2.0.19",
+    "nodemon": "~2.0.19",
     "prettier": "~2.7.1"
   },
   "dependencies": {
     "@hapi/boom": "~10.0.0",
+    "cors": "~2.8.5",
     "express": "~4.18.1",
     "faker": "~5.5.3",
     "joi": "~17.6.0"
