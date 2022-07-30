@@ -1,6 +1,9 @@
+/* eslint-disable class-methods-use-this */
 const faker = require('faker');
 const boom = require('@hapi/boom');
+const ConnectionPgsql = require('../libs/postgres');
 
+const client = new ConnectionPgsql();
 class UsersServices {
   constructor() {
     this.users = [];
@@ -32,7 +35,9 @@ class UsersServices {
   }
 
   async find() {
-    return this.users;
+    const clients = await client.getConnection();
+    const resp = await clients.query('SELECT * FROM public.task');
+    return resp.rows;
   }
 
   async findOne(id) {
