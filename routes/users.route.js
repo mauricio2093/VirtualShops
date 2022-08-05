@@ -28,14 +28,19 @@ router.get(
 router.post(
   '/',
   validatorHandler(createUserSchema, 'body'),
-  async (req, res) => {
-  // eslint-disable-next-line prefer-destructuring
-    const body = req.body;
-    const newUser = await service.create(body);
-    res.status(201).json({
-      message: 'creted',
-      data: newUser,
-    });
+  async (req, res, next) => {
+    try {
+      // eslint-disable-next-line prefer-destructuring
+      const body = req.body;
+      const newUser = await service.create(body);
+
+      res.status(201).json({
+        message: 'creted',
+        data: newUser,
+      });
+    } catch (error) {
+      next(error);
+    }
   },
 );
 

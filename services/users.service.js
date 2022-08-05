@@ -1,78 +1,38 @@
 /* eslint-disable class-methods-use-this */
-const faker = require('faker');
 const boom = require('@hapi/boom');
-const ConnectionPgsql = require('../libs/postgres');
+const { models } = require('../libs/sequelize');
 
-const client = new ConnectionPgsql();
 class UsersServices {
   constructor() {
     this.users = [];
-    this.generate();
-  }
-
-  generate() {
-    const limit = 100;
-
-    for (let index = 0; index < limit; index += 1) {
-      this.users.push({
-        id: faker.datatype.uuid(),
-        name: faker.name.findName(),
-        type: faker.name.jobTitle(),
-        img: faker.image.people(),
-        isBlock: faker.datatype.boolean(),
-      });
-    }
   }
 
   async create(data) {
-    const newUser = {
-      id: faker.datatype.uuid(),
-      ...data,
-    };
-
-    this.users.push(newUser);
+    const newUser = await models.User.create(data);
     return newUser;
   }
 
   async find() {
-    const clients = await client.getConnection();
-    const resp = await clients.query('SELECT * FROM public.task');
-    return resp.rows;
+    const resp = await models.User.findAll();
+    return resp;
   }
 
   async findOne(id) {
-    const user = this.users.find((item) => item.id === id);
+    const user = await models.User.findByPk(id);
     if (!user) throw boom.notFound('User not found');
-    if (user.isBlock) throw boom.conflict('User is block');
     return user;
   }
 
   async update(id, changes) {
-    const index = this.users.findIndex((item) => item.id === id);
-
-    if (index === -1) throw boom.notFound('User not found');
-
-    const user = this.users[index];
-    this.users[index] = {
-      ...user,
-      ...changes,
-    };
-
-    return this.users[index];
+    const user = await models.User.findByPk(id);
+    const resp = await user.update(changes);
+    return resp;
   }
 
   async delete(id) {
-    const index = this.users.findIndex((item) => item.id === id);
-
-    if (index === -1) throw boom.notFound('User not found');
-
-    this.users.splice(index, 1);
-
-    return {
-      message: 'Delete',
-      status: true,
-      id,
-    };
+    const user = await models.User.findByPk(id);
+    await user.destroy();
+    return { id };
   }
 }
 module.exports = UsersServices;
