@@ -1,18 +1,24 @@
 const express = require('express');
+
+const CategoryService = require('../services/categories.service');
 const validatorHandler = require('../middlewares/validator.handler');
 const { getCategoriesSchema, createCategoriesSchema, updateCategoriesSchema } = require('../schemas/categories.schema');
-const CategoriesServices = require('../services/categories.service');
 
-const service = new CategoriesServices();
 const router = express.Router();
+const service = new CategoryService();
 
-router.get('/', async (req, res) => {
-  const categories = await service.find();
-  res.json(categories);
+router.get('/', async (req, res, next) => {
+  try {
+    const categories = await service.find();
+    res.json(categories);
+  } catch (error) {
+    next(error);
+  }
+  
 });
 
 router.get(
-  '/:categoryId',
+  '/:Id',
   validatorHandler(getCategoriesSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -28,14 +34,17 @@ router.get(
 router.post(
   '/',
   validatorHandler(createCategoriesSchema, 'body'),
-  async (req, res) => {
-    // eslint-disable-next-line prefer-destructuring
-    const body = req.body;
-    const newCategory = await service.create(body);
-    res.status(201).json({
-      message: 'creted',
-      data: newCategory,
-    });
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newCategory = await service.create(body);
+      res.status(201).json({
+        message: 'creted',
+        data: newCategory,
+      });
+    } catch (error) {
+      next(error);
+    }
   },
 );
 
