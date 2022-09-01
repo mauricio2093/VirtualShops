@@ -1,13 +1,21 @@
-/* eslint-disable class-methods-use-this */
 const boom = require('@hapi/boom');
+
 const { models } = require('../libs/sequelize');
 
 class CostumersServices {
-  // eslint-disable-next-line no-empty-function, no-useless-constructor
   constructor() {}
 
+  async create(data) {
+    const newCustomer = await models.Customer.create(data, {
+      include: ['user'],
+    });
+    return newCustomer;
+  }
+
   async find() {
-    const resp = await models.Customer.findAll();
+    const resp = await models.Customer.findAll({
+      include: ['user'],
+    });
     return resp;
   }
 
@@ -15,11 +23,6 @@ class CostumersServices {
     const customer = await models.Customer.findByPk(id);
     if (!customer) throw boom.notFound('Customer not found');
     return customer;
-  }
-
-  async create(data) {
-    const NewCustomer = await models.Customer.create(data);
-    return NewCustomer;
   }
 
   async update(id, changes) {
