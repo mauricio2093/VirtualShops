@@ -1,4 +1,5 @@
 const express = require('express');
+
 const validatorHandler = require('../middlewares/validator.handler');
 const { getProductSchema, createProductSchema, updateProductSchema } = require('../schemas/product.schema');
 const ProductsService = require('../services/products.service');
@@ -6,10 +7,13 @@ const ProductsService = require('../services/products.service');
 const service = new ProductsService();
 const router = express.Router();
 
-router.get('/', async (req, res) => { // en este endpoint se espera una lista de productos
-  const products = await service.find();
-
-  res.status(200).json(products);
+router.get('/', async (req, res, next) => { // en este endpoint se espera una lista de productos
+  try {
+    const products = await service.find();
+    res.status(200).json(products);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get('/filter', (resq, res) => { // los endpoint especificos deben ir antes de los dinamicos
