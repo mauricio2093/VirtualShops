@@ -50,7 +50,7 @@
     "method": "GET",
     "sortNum": 0,
     "created": "2022-08-31T04:38:15.963Z",
-    "modified": "2022-08-31T04:38:15.974Z",
+    "modified": "2022-09-29T15:58:45.672Z",
     "headers": [],
     "params": [],
     "tests": []
@@ -64,7 +64,7 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-08-31T04:39:54.741Z",
-    "modified": "2022-08-31T04:44:48.450Z",
+    "modified": "2022-09-29T16:03:44.144Z",
     "headers": [],
     "params": [],
     "body": {
@@ -83,12 +83,12 @@
     "method": "GET",
     "sortNum": 0,
     "created": "2022-08-31T04:44:19.205Z",
-    "modified": "2022-08-31T04:48:33.814Z",
+    "modified": "2022-09-29T16:26:49.789Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"name\": \"Category 1\",\n  \"image\": \"http://placeimg.com/640/480\"\n}",
+      "raw": "{\n  \"name\": \"Camisa nueva\",\n  \"price\": 22222,\n  \"description\": \"new product for men\",\n  \"image\": \"http://placeimg.com/640/480\",\n  \"categoryId\": 1\n}",
       "form": []
     },
     "tests": []
@@ -102,12 +102,12 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-08-31T04:45:04.747Z",
-    "modified": "2022-08-31T04:45:04.784Z",
+    "modified": "2022-09-29T16:26:30.226Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"name\": \"Category 1\",\n  \"image\": \"http://placeimg.com/640/480\"\n}",
+      "raw": "{\n  \"name\": \"Camisa nueva\",\n  \"price\": 22222,\n  \"description\": \"new product for men\",\n  \"image\": \"http://placeimg.com/640/480\",\n  \"categoryId\": 1\n}",
       "form": []
     },
     "tests": []
@@ -117,16 +117,16 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3005/api/v1/products",
-    "url": "http://localhost:3005/api/v1/products",
+    "url": "http://localhost:3005/api/v1/categories/3",
     "method": "GET",
     "sortNum": 0,
     "created": "2022-08-31T04:45:10.172Z",
-    "modified": "2022-08-31T04:45:19.582Z",
+    "modified": "2022-10-01T04:14:56.020Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"name\": \"Category 1\",\n  \"image\": \"http://placeimg.com/640/480\"\n}",
+      "raw": "{\n  \"name\": \"Camisa nueva 3\",\n  \"price\": 222,\n  \"description\": \"new products for women\",\n  \"image\": \"http://placeimg.com/640/480\",\n  \"categoryId\": 3\n}",
       "form": []
     },
     "tests": []
@@ -148,6 +148,39 @@
       "raw": "{\n  \"name\": \"Category 1\",\n  \"image\": \"http://placeimg.com/640/480\"\n}",
       "form": []
     },
+    "tests": []
+  },
+  {
+    "_id": "f5841778-de35-4e7f-918b-2f471bb976cf",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:3005/api/v1/product",
+    "url": "http://localhost:3005/api/v1/product",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-09-27T20:46:58.423Z",
+    "modified": "2022-09-27T20:46:58.484Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Camisa nueva\",\n  \"price\": 1212,\n  \"description\": \"asasd sd sd sd\",\n  \"image\": \"http://placeimg.com/640/480\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "0ae22600-469a-4e20-8b0c-d9b566733f97",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:3005/api/v1/category",
+    "url": "http://localhost:3005/api/v1/category",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-09-29T15:59:00.269Z",
+    "modified": "2022-09-29T15:59:00.283Z",
+    "headers": [],
+    "params": [],
     "tests": []
   }
 ]

@@ -14,17 +14,16 @@ router.get('/', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-  
 });
 
 router.get(
-  '/:Id',
+  '/:id',
   validatorHandler(getCategoriesSchema, 'params'),
   async (req, res, next) => {
     try {
-      const { categoryId } = req.params;
-      const category = await service.findOne(categoryId);
-      res.json(category);
+      const { id } = req.params;
+      const category = await service.findOne(id);
+      res.status(200).json(category);
     } catch (error) {
       next(error);
     }
